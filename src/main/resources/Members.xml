@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MemberMapper">
+    <resultMap id="result" type="org.example.dto.Member">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="address" column="address"/>
+        <result property="gender" column="gender"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="result">
+        SELECT * FROM members
+    </select>
+
+    <insert id="insert" parameterType="org.example.dto.Member">
+        INSERT INTO members (name, age, address, gender, height)
+        VALUES ( #{name}, #{age},  #{address}, #{gender}, #{height})
+    </insert>
+
+    <!-- 수정 필요 합니다. !-->
+    <select id="selectByName" parameterType="String" resultType="org.example.dto.Member">
+        SELECT * FROM members WHERE name = #{name}
+    </select>
+
+    <update id="update" parameterType="org.example.dto.Member">
+        UPDATE members
+        SET name=#{name}, age=#{age}, address=#{address}, gender=#{gender}, height=#{height}
+        WHERE name = #{name}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE from members WHERE id = #{name}
+    </delete>
+</mapper>
