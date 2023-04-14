@@ -8,7 +8,9 @@ public interface ExcelService {
 
     public void printRows(String path) throws IOException;
 
-    public void importData() throws IOException;
+    public void importData(String path) throws IOException;
+
+    public void exportData(String resultPath) throws IOException;
 
     public Member getRows();
 

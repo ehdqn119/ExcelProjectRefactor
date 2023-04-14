@@ -6,15 +6,17 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.example.config.SqlSessionFactoryManager;
+import org.example.controller.ExcelUiController;
+import org.example.controller.UiController;
 import org.example.dao.MemberDAO;
 import org.example.dto.Member;
+import org.example.exception.FileNameNotFoundException;
 import org.example.service.ExcelService;
 import org.example.service.ExcelServiceImpl;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
+import java.util.Scanner;
 
 
 // TODO Refactor: 23 DB 연결,  연결이 안되면 오류 완료되면 Message 출력
@@ -22,35 +24,9 @@ import java.util.List;
 
 public class App {
 
-    public static void main( String[] args ) throws IOException {
+    public static void main(String[] args) throws IOException {
 
-
-        MemberDAO memberDAO = new MemberDAO(SqlSessionFactoryManager.getSqlSessionFactory());
-
-//        Member newMember = new Member();
-//        newMember.setName("Lee Sang Hyup");
-//        newMember.setAge((30));
-//        newMember.setAddress(("대구광역시 동구 큰고개로35-2"));
-//        newMember.setHeight((175));
-//        newMember.setGender("Man");
-//        memberDAO.insert(newMember);
-//
-//
-//        List<Member> memberList = memberDAO.selectAll();
-//        for(Member member : memberList){
-//            System.out.println("Member ID: "+  member.getId());
-//            System.out.println("Member Age: "+  member.getName());
-//            System.out.println("Member Address: "+  member.getAge());
-//            System.out.println("Member Height: "+  member.getAddress());
-//            System.out.println("Member getGender: "+  member.getGender());
-//            System.out.println("Member getHeight: "+  member.getHeight());
-//            System.out.println("End");
-//        }
-        ExcelServiceImpl ex = new ExcelServiceImpl();
-
-        System.out.println("==POI LINE==");
-
-        ex.importData();
-        ex.exportData();
+        ExcelUiController excelUiController = new ExcelUiController(new ExcelServiceImpl());
+        excelUiController.showMenu();
     }
 }

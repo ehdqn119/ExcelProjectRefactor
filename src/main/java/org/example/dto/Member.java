@@ -19,7 +19,6 @@ public class Member {
     private String address;
     private String gender;
     private Integer height;
-
     private Boolean isSave;
 
 }
