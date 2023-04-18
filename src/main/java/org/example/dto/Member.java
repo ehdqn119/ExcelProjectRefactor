@@ -21,4 +21,8 @@ public class Member {
     private Integer height;
     private Boolean isSave;
 
+    private String sourceIp;
+    private String desIp;
+    private String portNumber;
+
 }

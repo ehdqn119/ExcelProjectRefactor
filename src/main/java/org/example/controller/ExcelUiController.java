@@ -13,7 +13,6 @@ public class ExcelUiController {
 
     private final String numberMsg = "1.DB에 Excel 데이터 저장하기 2.DB데이터 Excel로 내보내기 3. 종료하기";
     private final String typeMismatchMsg = "잘못된 타입을 입력했습니다. 다시 입력해주세요.";
-
     private final String exitMsg = "정상적으로 종료되었습니다.";
     private final ExcelService ex;
 
@@ -36,6 +35,7 @@ public class ExcelUiController {
                     System.out.println("DB에 Excel 데이터를 저장합니다.");
                     System.out.println("드라이브 이름 부터 전체 경로를 입력해주세요. ex) C:\\Users\\user\\Desktop\\testcase01.xlsx");
                     String path = sc.nextLine();
+
                     ex.importData(path);
                 } else if (number == 2) {
                     sc.nextLine();

@@ -7,6 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.example.config.SqlSessionFactoryManager;
 import org.example.dao.MemberDAO;
 import org.example.dto.Member;
+import org.example.validation.RegexUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -58,6 +59,18 @@ public class ExcelServiceImpl implements ExcelService {
                         // gender
                         if (cell.getColumnIndex() == 3) {
                             member.setGender(cell.getRichStringCellValue().getString());
+                        }
+                        if (cell.getColumnIndex() == 5) {
+                            RegexUtil.checkIp(cell.getRichStringCellValue().getString());
+                            member.setSourceIp(cell.getRichStringCellValue().getString());
+                        }
+                        if (cell.getColumnIndex() == 6) {
+                            RegexUtil.checkIp(cell.getRichStringCellValue().getString());
+                            member.setDesIp(cell.getRichStringCellValue().getString());
+                        }
+                        if (cell.getColumnIndex() == 7) {
+                            RegexUtil.checkPortNumber(String.valueOf(cell.getRichStringCellValue().getString()));
+                            member.setPortNumber(cell.getRichStringCellValue().getString());
                         }
                         break;
                     case NUMERIC:

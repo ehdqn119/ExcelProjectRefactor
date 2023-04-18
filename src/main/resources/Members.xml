@@ -10,15 +10,25 @@
         <result property="age" column="age"/>
         <result property="address" column="address"/>
         <result property="gender" column="gender"/>
+
+        <result property="sourceIp" column="source_ip"/>
+        <result property="desIp" column="des_ip"/>
+        <result property="portNumber" column="port"/>
     </resultMap>
 
     <select id="selectAll" resultMap="result">
         SELECT * FROM members
     </select>
 
+    <select id="duplicateKey" parameterType="org.example.dto.Member" resultType="boolean">
+        SELECT exists(
+            select 1 from members where source_ip=#{sourceIp} and des_ip=#{desIp} and port= #{portNumber}
+        )
+    </select>
+
     <insert id="insert" parameterType="org.example.dto.Member">
-        INSERT INTO members (name, age, address, gender, height)
-        VALUES ( #{name}, #{age},  #{address}, #{gender}, #{height})
+        INSERT INTO members (name, age, address, gender, height, source_ip, des_ip, port)
+        VALUES ( #{name}, #{age},  #{address}, #{gender}, #{height}, #{sourceIp}, #{desIp}, #{portNumber})
     </insert>
 
     <!-- 수정 필요 합니다. !-->
@@ -28,7 +38,8 @@
 
     <update id="update" parameterType="org.example.dto.Member">
         UPDATE members
-        SET name=#{name}, age=#{age}, address=#{address}, gender=#{gender}, height=#{height}
+        SET name=#{name}, age=#{age}, address=#{address}, gender=#{gender}, height=#{height},
+            source_ip=#{sourceIp} , des_ip=#{desIp} , port=#{portNumber}
         WHERE name = #{name}
     </update>
 

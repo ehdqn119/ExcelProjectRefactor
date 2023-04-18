@@ -38,16 +38,26 @@ public class MemberDAO {
         return member;
     }
 
+    public boolean duplicatePolicy(Member member){
+        boolean isDuplicate = false;
+        SqlSession session = sqlSessionFactory.openSession();
+        try {
+             isDuplicate = session.selectOne("MemberMapper.duplicateKey", member);
+        } finally {
+            session.close();
+        }
+        return isDuplicate;
+    }
+
     public void insert(Member member){
         SqlSession session = sqlSessionFactory.openSession();
-
         try {
             session.insert("MemberMapper.insert", member);
         } finally {
             session.commit();
             session.close();
         }
-        System.out.println("Insert 성공!~");
+        System.out.println("Insert 성공");
     }
 
     public void update(Member member){
@@ -60,7 +70,7 @@ public class MemberDAO {
             session.commit();
             session.close();
         }
-        System.out.println("update 성공!~");
+        System.out.println("update 성공");
     }
 
 

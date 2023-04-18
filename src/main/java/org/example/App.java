@@ -13,6 +13,7 @@ import org.example.dto.Member;
 import org.example.exception.FileNameNotFoundException;
 import org.example.service.ExcelService;
 import org.example.service.ExcelServiceImpl;
+import org.example.service.ExcelServiceRefactor;
 
 import java.io.*;
 import java.util.List;
@@ -24,9 +25,12 @@ import java.util.Scanner;
 
 public class App {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        ExcelUiController excelUiController = new ExcelUiController(new ExcelServiceImpl());
+        ExcelUiController excelUiController = new ExcelUiController(new ExcelServiceRefactor());
         excelUiController.showMenu();
+
+        // ExcelUiController excelUiController = new ExcelUiController(new ExcelServiceImpl());
+        // excelUiController.showMenu();
     }
 }
