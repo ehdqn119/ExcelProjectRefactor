@@ -25,6 +25,9 @@ public class ExcelServiceRefactor implements ExcelService {
     private final static Logger LOG = Logger.getGlobal();
     private MemberDAO memberDAO = new MemberDAO(SqlSessionFactoryManager.getSqlSessionFactory());
     ExcelMapper<Member> excelMapper = new MemberMapper();
+    
+    // TODO : 타입비교해서 블랭크 셀은  다 지워주기.
+    // TODO : 뉴메릭셀과 다른셀 타입 검증 로직 추가해주기
     @Override
     public void importData(String path) throws IOException {
         LOG.setLevel(Level.INFO);
@@ -40,6 +43,7 @@ public class ExcelServiceRefactor implements ExcelService {
             if(i  == 0) {
                 continue;
             }
+            Row testRow = sheet1.getRow(i);
             Row row = sheet1.getRow(i);
             Member cellToMember = excelMapper.toObject(row);
             list.add(cellToMember);
@@ -83,6 +87,9 @@ public class ExcelServiceRefactor implements ExcelService {
 
     }
 
+    //  TODO : 2023-04-18 : setColumnWidth 반복문 지우기
+    //  TODO : 2023-04-18 : try with resources 으로 개선하기
+    //  TODO : 2023-04-18 : IOException thorws 개선하기
     public void exportData(String resultPath) throws IOException {
         LOG.info("설정경로" + resultPath);
         LOG.setLevel(Level.INFO);
@@ -108,6 +115,10 @@ public class ExcelServiceRefactor implements ExcelService {
         Row header = sheet.createRow(0);
         excelMapper.toHeader(header);
 
+        //for (int i = 0; i <= 8; i++) {
+        //    header.getCell(i).setCellStyle(headStyle);
+        //}
+
 
         sheet.setColumnWidth(0, 3000);
         sheet.setColumnWidth(1, 3000);
@@ -118,9 +129,7 @@ public class ExcelServiceRefactor implements ExcelService {
 
         List<Member> memberList = memberDAO.selectAll();
 
-        for (int i = 0; i <= 8; i++) {
-            header.getCell(i).setCellStyle(headStyle);
-        }
+
 
         for (int i = 0; i < memberList.size(); i++) {
             header.getCell(i).setCellStyle(headStyle);

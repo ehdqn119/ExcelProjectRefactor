@@ -20,9 +20,6 @@ import java.util.List;
 import java.util.Scanner;
 
 
-// TODO Refactor: 23 DB 연결,  연결이 안되면 오류 완료되면 Message 출력
-// TODO Refactor: 24 클래스로  따로 빼기, Error  Response 만들기
-
 public class App {
 
     public static void main(String[] args) {

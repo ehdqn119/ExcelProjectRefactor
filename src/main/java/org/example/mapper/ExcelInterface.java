@@ -11,4 +11,5 @@ public interface ExcelInterface<T> {
     CellType getCellType();
     <U> BiConsumer<T,U> getConsumer();
     <U> BiConsumer<T,U> getFunction();
+
 }

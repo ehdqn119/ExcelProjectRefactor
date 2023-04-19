@@ -8,7 +8,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public enum MemberInformation implements ExcelInterface<Member> { //단일
-    NAME(CellType.STRING,"name",0,(member, cell) -> member.setName(cell.getStringCellValue()),
+    NAME(CellType.STRING,"name",0,(member, cell) -> member.setName( cell.getStringCellValue()),
             (member,cell) -> cell.setCellValue(member.getName())
             ),
     AGE(CellType.NUMERIC,"age",1,(member, cell) -> member.setAge((int) cell.getNumericCellValue()),
@@ -44,6 +44,10 @@ public enum MemberInformation implements ExcelInterface<Member> { //단일
         this.index = index;
         this.biConsumer = biConsumer;
         this.func = func;
+    }
+
+    boolean typeCheck(CellType cellType)  {
+        return this.getCellType()  == cellType;
     }
 
     @Override
