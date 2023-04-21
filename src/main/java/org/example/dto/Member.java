@@ -25,4 +25,14 @@ public class Member {
     private String desIp;
     private String portNumber;
 
+    public Member getPolicy(Member member) {
+        Member policy = new Member();
+        policy.setId(member.getId());
+        policy.setName(member.getName());
+        policy.setSourceIp(member.getSourceIp());
+        policy.setDesIp(member.getDesIp());
+        policy.setPortNumber(member.getPortNumber());
+        return member;
+    }
+
 }

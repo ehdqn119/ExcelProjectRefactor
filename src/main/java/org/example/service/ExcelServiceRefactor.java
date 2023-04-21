@@ -13,6 +13,7 @@ import org.example.mapper.MemberMapper;
 import org.example.validation.RegexUtil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +26,58 @@ public class ExcelServiceRefactor implements ExcelService {
     private final static Logger LOG = Logger.getGlobal();
     private MemberDAO memberDAO = new MemberDAO(SqlSessionFactoryManager.getSqlSessionFactory());
     ExcelMapper<Member> excelMapper = new MemberMapper();
+
+    public void test(String resultPath) throws IOException {
+        LOG.setLevel(Level.INFO);
+        LOG.info("test 를 진행중입니다.");
+
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Members");
+        Row header = sheet.createRow(0);
+        excelMapper.toHeader(header);
+        CreationHelper createHelper = workbook.getCreationHelper();
+        int testPort = 1;
+        for(int i=1; i <=100000; i++) {
+            Row row = sheet.createRow(i);
+            System.out.println(i);
+            for(int x=0; x <8; x++) {
+                if(x == 0) {
+                    row.createCell(x).setCellValue(createHelper.createRichTextString("Name"));
+                }
+                if(x == 1) {
+                    row.createCell(x).setCellValue(1);
+                }
+                if(x == 2) {
+                    row.createCell(x).setCellValue(createHelper.createRichTextString("Address"));
+                }
+                if(x == 3) {
+                    row.createCell(x).setCellValue(createHelper.createRichTextString("This is a GENDER"));
+                }
+
+                if(x == 4) {
+                    row.createCell(x).setCellValue(1);
+                }
+                if(x == 5) {
+                    row.createCell(x).setCellValue(createHelper.createRichTextString("This is a SOURCEIP"));
+                }
+                if(x == 6) {
+                    row.createCell(x).setCellValue(createHelper.createRichTextString("This is a DESIP"));
+                }
+                if(x == 7) {
+                    row.createCell(x).setCellValue(String.valueOf(testPort++));
+                }
+            }
+        }
+        File file = new File(resultPath + "\\test.xlsx"); // 파일 확장자 .xlsx로 고정
+        FileOutputStream fos = new FileOutputStream(file);
+
+        workbook.write(fos);
+        if (fos != null) {
+            fos.close();
+        }
+        LOG.info(file.getAbsolutePath() + " 에 생성되었습니다.");
+    }
+
     
     // TODO : 타입비교해서 블랭크 셀은  다 지워주기.
     // TODO : 뉴메릭셀과 다른셀 타입 검증 로직 추가해주기
@@ -43,7 +96,6 @@ public class ExcelServiceRefactor implements ExcelService {
             if(i  == 0) {
                 continue;
             }
-            Row testRow = sheet1.getRow(i);
             Row row = sheet1.getRow(i);
             Member cellToMember = excelMapper.toObject(row);
             list.add(cellToMember);
@@ -52,9 +104,9 @@ public class ExcelServiceRefactor implements ExcelService {
         // save || update
         for (Member member : list) {
             // Validation
-            RegexUtil.checkIp(member.getSourceIp());
-            RegexUtil.checkIp(member.getDesIp());
-            RegexUtil.checkPortNumber(String.valueOf(member.getPortNumber()));
+            // RegexUtil.checkIp(member.getSourceIp());
+            // RegexUtil.checkIp(member.getDesIp());
+            // RegexUtil.checkPortNumber(String.valueOf(member.getPortNumber()));
 
             // 정책 Validation
             if(member.getSourceIp() == member.getDesIp()) {
@@ -64,7 +116,7 @@ public class ExcelServiceRefactor implements ExcelService {
             // 기존 정책 확인 Validation
             boolean duplicate = memberDAO.duplicatePolicy(member);
             if(duplicate) {
-                throw new DuplicatePolicyException("이미 해당 정책이 있습니다.");
+                throw new DuplicatePolicyException(member.getPolicy(member) + " 이미 해당 정책이 있습니다.");
             }
             else {
                 member.setIsSave(memberDAO.selectById(member.getName()) == null);

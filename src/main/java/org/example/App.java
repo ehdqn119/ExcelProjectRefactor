@@ -22,7 +22,10 @@ import java.util.Scanner;
 
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+        // ExcelServiceRefactor ex = new ExcelServiceRefactor();
+        // ex.test("C:\\Users\\user\\Desktop");
 
         ExcelUiController excelUiController = new ExcelUiController(new ExcelServiceRefactor());
         excelUiController.showMenu();

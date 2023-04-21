@@ -7,7 +7,7 @@ import org.example.dto.Member;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-public enum MemberInformation implements ExcelInterface<Member> { //단일
+public enum MemberInformation implements ExcelInterface<Member> {
     NAME(CellType.STRING,"name",0,(member, cell) -> member.setName( cell.getStringCellValue()),
             (member,cell) -> cell.setCellValue(member.getName())
             ),

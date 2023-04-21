@@ -11,7 +11,7 @@ public class RegexUtil {
             System.out.println("ip 타입 체크 완료");
         }
         else {
-            throw new IllegalArgumentException("잘못된 Ip 타입입니다.");
+            throw new IllegalArgumentException(str + "잘못된 Ip 타입입니다.");
         }
     }
 
@@ -22,7 +22,7 @@ public class RegexUtil {
             System.out.println("PortNumber 타입 체크 완료");
         }
         else {
-            throw new IllegalArgumentException("잘못된  타입입니다.");
+            throw new IllegalArgumentException(str + "잘못된  타입입니다.");
         }
     }
 

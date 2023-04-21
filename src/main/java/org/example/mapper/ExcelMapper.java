@@ -10,5 +10,5 @@ public interface ExcelMapper<T> {
     void toRow(Row row, T obj);
     void toHeader(Row row);
 
-    boolean cellTypeVerify(CellType cellType);
+    boolean cellTypeVerify(Cell cell);
 }
